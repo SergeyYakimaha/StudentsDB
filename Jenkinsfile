@@ -1,15 +1,24 @@
+#!groovy
+
 pipeline {
     agent any
+
+    tools {
+        maven "3.6.0" // You need to add a maven with name "3.6.0" in the Global Tools Configuration page
+    }
+
     stages {
-        stage("First step: stage_branch") {
+        stage("Build") {
             steps {
-                bat('java -version')
+                bat("mvn -version")
+                bat("mvn clean install")
             }
         }
-        stage("Second step: stage_branch") {
-            steps {
-                bat('java -version')
-            }
+    }
+
+    post {
+        always {
+            cleanWs()
         }
     }
 }
