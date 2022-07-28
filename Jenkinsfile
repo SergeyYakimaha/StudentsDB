@@ -8,11 +8,15 @@ pipeline {
     }
 
     stages {
-        stage("Build") {
-            steps {
-                bat("mvn -version")
-                bat("mvn clean install")
-            }
+        stage("Build Maven") {
+          steps {
+            bat("mvn clean install")
+          }
+        }
+        stage("Build docker image") {
+          steps {
+            bat("docker build --build-arg JAR_FILE=target/*.jar -t studentdb .")
+          }
         }
     }
 
